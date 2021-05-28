@@ -8,6 +8,7 @@ class App extends React.Component {
     this.state = {
       inputValue: "",
       values: "",
+      alert: ""
     };
   }
 
@@ -15,6 +16,20 @@ class App extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
+  submitted = () => {
+    const { inputValue, alert } = this.state;
+    if (inputValue) {
+      this.setState({
+        values: inputValue.toLowerCase(),
+        inputValue: ""
+      });
+    } else {
+      this.setState({ alert: "Please Enter A Value To Pass" });
+      setTimeout(() => {
+        this.setState({ alert: "" });
+      }, 1500);
+    }
+  };
   render() {
     const { inputValue, values, alert } = this.state;
 
@@ -28,6 +43,8 @@ class App extends React.Component {
             value={inputValue}
             onChange={this.changed}
           />
+          <PassMessage func={this.submitted} />
+          <p className="alert">{alert}</p>
         </div>
         <h3>Last Message Delivered</h3>
         <p className="messages">{values}</p>
